@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:home_asset_management_app/app/ui/ui.dart';
+import 'package:home_asset_management_app/home/view/home_page.dart';
 
 void main() => runApp(const MyApp());
 
@@ -9,10 +11,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Home Asset Management App',
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Material App Bar')),
-        body: const Center(child: Text('Hello World')),
-      ),
+      theme: AppTheme.lightTheme,
+      home: const HomePage(),
     );
   }
 }
