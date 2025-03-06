@@ -20,4 +20,7 @@ abstract class AppSpacing {
 
   ///[space32]
   static const double space32 = 32;
+
+  ///[space100]
+  static const double space100 = 100;
 }
