@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:home_asset_management_app/app/ui/ui.dart';
 import 'package:home_asset_management_app/home/widgets/property_item.dart';
+import 'package:homes_repository/homes_repository.dart';
 
 /// {@template HomeProperties}
 /// Show the list of user's properties
 /// {@endtemplate}
 class HomeProperties extends StatelessWidget {
   /// {@macro HomeProperties}
-  const HomeProperties({super.key});
+  const HomeProperties({required this.homes, super.key});
+
+  /// List of User's homes
+  final List<Home> homes;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +32,7 @@ class HomeProperties extends StatelessWidget {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
-              const PropertyItem(),
-              const PropertyItem(),
-              const PropertyItem(),
+              ...homes.map((home) => PropertyItem(home: home)),
             ]),
           ),
         ],
