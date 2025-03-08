@@ -1,18 +1,34 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive/hive.dart';
 
-part 'home.freezed.dart';
+part 'home.g.dart';
 
-@freezed
+@HiveType(typeId: 0)
 
 /// {@template Home}
 /// Home model
 /// {@endtemplate}
-abstract class Home with _$Home {
+class Home extends HiveObject {
   /// {@macro Home}
-  const factory Home({
-    required String id,
-    required String name,
-    required String address,
-    @Default(null) String? imageUrl,
-  }) = _Home;
+  Home({
+    required this.id,
+    required this.name,
+    required this.address,
+    this.imageUrl,
+  });
+
+  /// Home identifier
+  @HiveField(0)
+  final String id;
+
+  /// Home name
+  @HiveField(1)
+  final String name;
+
+  /// Home address
+  @HiveField(2)
+  final String address;
+
+  /// Url of home image
+  @HiveField(3)
+  final String? imageUrl;
 }

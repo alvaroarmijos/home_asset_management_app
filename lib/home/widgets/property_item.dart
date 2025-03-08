@@ -25,13 +25,19 @@ class PropertyItem extends StatelessWidget {
           padding: const EdgeInsets.all(AppSpacing.space8),
           child: Row(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(AppSpacing.space16),
-                child: Image.network(
-                  home.imageUrl ?? '',
+              if (home.imageUrl != null)
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(AppSpacing.space16),
+                  child: Image.network(
+                    home.imageUrl ?? '',
+                    height: AppSpacing.space100,
+                  ),
+                )
+              else
+                Image.asset(
+                  'assets/images/default_home.png',
                   height: AppSpacing.space100,
                 ),
-              ),
               Expanded(
                 flex: 2,
                 child: Padding(

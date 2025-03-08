@@ -18,7 +18,6 @@ class HomeModalNotifier extends StateNotifier<HomeModalState> {
     if (!mounted) return;
 
     state = const HomeModalState.loading();
-    await Future.delayed(const Duration(seconds: 3));
     final home = Home(
       id: DateTime.timestamp().toIso8601String(),
       name: name,

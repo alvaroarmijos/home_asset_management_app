@@ -3,8 +3,11 @@ import 'package:oxidized/oxidized.dart';
 
 ///[HomesRepositoryContract] contract APIs.
 abstract class HomesRepositoryContract {
-  ///gets all the homes list from API.
-  Future<Result<List<Home>, Exception>> getAll();
+  /// Initializes the repository.
+  Future<void> initialize();
+
+  /// Returns the list of available homes
+  Stream<List<Home>> get homes;
 
   ///saves a home in the Data Store
   Future<Result<Unit, Exception>> save(Home home);

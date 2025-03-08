@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:homes_repository/homes_repository.dart';
 
@@ -12,15 +14,24 @@ class HomeNotifier extends StateNotifier<AsyncValue<List<Home>>> {
 
   final HomesRepository _homesRepository;
 
-  /// get all homes from the repository.
-  Future<void> getAllHomes() async {
+  StreamSubscription<List<Home>>? _homesSubscription;
+
+  /// Subscribes to the homes stream
+  Future<void> listenNewHomes() async {
     if (!mounted) return;
     state = const AsyncLoading();
-    final result = await _homesRepository.getAll();
+    await _homesSubscription?.cancel();
+    _homesSubscription = _homesRepository.homes.listen(_onNewHomes);
+  }
 
-    state = result.when(
-      ok: AsyncData.new,
-      err: (e) => AsyncError(e, StackTrace.current),
-    );
+  /// Updates the status when a data is added.
+  void _onNewHomes(List<Home> homes) {
+    state = AsyncData(homes);
+  }
+
+  @override
+  Future<void> dispose() async {
+    await _homesSubscription?.cancel();
+    super.dispose();
   }
 }
