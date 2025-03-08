@@ -18,25 +18,23 @@ class HomeProperties extends StatelessWidget {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
-    return Expanded(
-      child: CustomScrollView(
-        slivers: [
-          PinnedHeaderSliver(
-            child: DecoratedBox(
-              decoration: BoxDecoration(color: theme.colorScheme.surface),
-              child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.space16),
-                child: Text('My Properties', style: textTheme.headlineSmall),
-              ),
+    return CustomScrollView(
+      slivers: [
+        PinnedHeaderSliver(
+          child: DecoratedBox(
+            decoration: BoxDecoration(color: theme.colorScheme.surface),
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.space16),
+              child: Text('My Properties', style: textTheme.headlineSmall),
             ),
           ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              ...homes.map((home) => PropertyItem(home: home)),
-            ]),
-          ),
-        ],
-      ),
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate([
+            ...homes.map((home) => PropertyItem(home: home)),
+          ]),
+        ),
+      ],
     );
   }
 }

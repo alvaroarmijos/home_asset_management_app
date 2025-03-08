@@ -10,6 +10,7 @@ part 'home.freezed.dart';
 abstract class Home with _$Home {
   /// {@macro Home}
   const factory Home({
+    required String id,
     required String name,
     required String address,
     @Default(null) String? imageUrl,

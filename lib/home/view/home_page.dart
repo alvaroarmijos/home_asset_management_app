@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:home_asset_management_app/app/common/widgets/home_modal.dart';
 import 'package:home_asset_management_app/app/ui/app_spacing.dart';
 import 'package:home_asset_management_app/home/state/pods.dart';
 import 'package:home_asset_management_app/home/widgets/home_properties.dart';
@@ -36,7 +37,13 @@ class HomePage extends ConsumerWidget {
             () => const Center(child: CircularProgressIndicator.adaptive()),
       ),
       floatingActionButton: FloatingActionButton.small(
-        onPressed: () {},
+        onPressed:
+            () => showModalBottomSheet<void>(
+              context: context,
+              showDragHandle: true,
+              isScrollControlled: true,
+              builder: (context) => const HomeModal(),
+            ),
         child: const Icon(Icons.add),
       ),
     );

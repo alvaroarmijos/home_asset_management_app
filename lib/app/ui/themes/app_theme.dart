@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:home_asset_management_app/app/ui/app_colors.dart';
+import 'package:home_asset_management_app/app/ui/app_spacing.dart';
 import 'package:home_asset_management_app/app/ui/themes/app_text_theme.dart';
 
 /// Contains the light theme used in App.
@@ -12,7 +13,13 @@ abstract class AppTheme {
     fontFamilyFallback: Platform.isAndroid ? ['sans-serif', 'Roboto'] : null,
   );
 
-  /// App light theme.
+  /// Determines outline input border for input decoration
+  static final outlineInputBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(AppSpacing.space16),
+    borderSide: BorderSide(
+      color: AppColors.primaryColor.withValues(alpha: 0.1),
+    ),
+  );
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
@@ -33,6 +40,23 @@ abstract class AppTheme {
         brightness: Brightness.light,
       ),
       buttonTheme: const ButtonThemeData(minWidth: double.infinity),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColors.primaryColor.withValues(alpha: 0.1),
+        hintStyle: baseTextStyle.copyWith(fontSize: 14, color: Colors.grey),
+        enabledBorder: outlineInputBorder,
+        focusedBorder: outlineInputBorder,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primaryColor,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.space12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.space16),
+          ),
+        ),
+      ),
     );
   }
 }

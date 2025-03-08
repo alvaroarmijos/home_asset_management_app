@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$Home {
+  String get id;
   String get name;
   String get address;
   String? get imageUrl;
@@ -31,6 +32,7 @@ mixin _$Home {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Home &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.imageUrl, imageUrl) ||
@@ -38,11 +40,11 @@ mixin _$Home {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, address, imageUrl);
+  int get hashCode => Object.hash(runtimeType, id, name, address, imageUrl);
 
   @override
   String toString() {
-    return 'Home(name: $name, address: $address, imageUrl: $imageUrl)';
+    return 'Home(id: $id, name: $name, address: $address, imageUrl: $imageUrl)';
   }
 }
 
@@ -51,7 +53,7 @@ abstract mixin class $HomeCopyWith<$Res> {
   factory $HomeCopyWith(Home value, $Res Function(Home) _then) =
       _$HomeCopyWithImpl;
   @useResult
-  $Res call({String name, String address, String? imageUrl});
+  $Res call({String id, String name, String address, String? imageUrl});
 }
 
 /// @nodoc
@@ -66,11 +68,16 @@ class _$HomeCopyWithImpl<$Res> implements $HomeCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
     Object? address = null,
     Object? imageUrl = freezed,
   }) {
     return _then(_self.copyWith(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -91,8 +98,13 @@ class _$HomeCopyWithImpl<$Res> implements $HomeCopyWith<$Res> {
 
 class _Home implements Home {
   const _Home(
-      {required this.name, required this.address, this.imageUrl = null});
+      {required this.id,
+      required this.name,
+      required this.address,
+      this.imageUrl = null});
 
+  @override
+  final String id;
   @override
   final String name;
   @override
@@ -114,6 +126,7 @@ class _Home implements Home {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Home &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.imageUrl, imageUrl) ||
@@ -121,11 +134,11 @@ class _Home implements Home {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, address, imageUrl);
+  int get hashCode => Object.hash(runtimeType, id, name, address, imageUrl);
 
   @override
   String toString() {
-    return 'Home(name: $name, address: $address, imageUrl: $imageUrl)';
+    return 'Home(id: $id, name: $name, address: $address, imageUrl: $imageUrl)';
   }
 }
 
@@ -135,7 +148,7 @@ abstract mixin class _$HomeCopyWith<$Res> implements $HomeCopyWith<$Res> {
       __$HomeCopyWithImpl;
   @override
   @useResult
-  $Res call({String name, String address, String? imageUrl});
+  $Res call({String id, String name, String address, String? imageUrl});
 }
 
 /// @nodoc
@@ -150,11 +163,16 @@ class __$HomeCopyWithImpl<$Res> implements _$HomeCopyWith<$Res> {
   @override
   @pragma('vm:prefer-inline')
   $Res call({
+    Object? id = null,
     Object? name = null,
     Object? address = null,
     Object? imageUrl = freezed,
   }) {
     return _then(_Home(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
