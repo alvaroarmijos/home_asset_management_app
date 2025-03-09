@@ -28,6 +28,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  assets_repository:
+    path: packages/assets_repository
   cupertino_icons: ^1.0.8
   flutter:
     sdk: flutter
@@ -38,6 +40,7 @@ dependencies:
   homes_repository:
     path: packages/homes_repository
   hooks_riverpod: ^2.6.1
+  
 dev_dependencies:
   build_runner: ^2.4.15
   flutter_lints: ^5.0.0

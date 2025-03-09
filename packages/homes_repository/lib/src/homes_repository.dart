@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs, constant_identifier_names
-
 import 'dart:async';
 
 import 'package:hive/hive.dart';
@@ -9,6 +7,8 @@ import 'package:oxidized/oxidized.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/subjects.dart';
 
+/// key used in Hive for Homes
+// ignore: constant_identifier_names
 const String HOMES_LOCAL_STORAGE_KEY = 'homes';
 
 /// {@template HomesRepository}
