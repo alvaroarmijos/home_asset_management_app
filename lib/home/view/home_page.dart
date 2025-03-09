@@ -42,7 +42,7 @@ class HomePage extends ConsumerWidget {
               context: context,
               showDragHandle: true,
               isScrollControlled: true,
-              builder: (context) => const HomeModal(),
+              builder: (context) => const HomeModal.create(),
             ),
         child: const Icon(Icons.add),
       ),

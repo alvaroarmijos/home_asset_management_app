@@ -11,7 +11,7 @@ abstract class AppNavigator {
   static const PROPERTY_DETAIL = '/detail';
 
   /// navigate to the property detail page
-  static void navigateToPropertyDetail(BuildContext context) {
-    Navigator.pushNamed(context, PROPERTY_DETAIL);
+  static void navigateToPropertyDetail(BuildContext context, String homeId) {
+    Navigator.pushNamed(context, PROPERTY_DETAIL, arguments: homeId);
   }
 }

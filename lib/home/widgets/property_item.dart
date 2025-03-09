@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:home_asset_management_app/app/common/widgets/home_image.dart';
+import 'package:home_asset_management_app/app/navigator/app_navigator.dart';
 import 'package:home_asset_management_app/app/ui/app_colors.dart';
 import 'package:home_asset_management_app/app/ui/app_spacing.dart';
-import 'package:home_asset_management_app/app/ui/navigator/app_navigator.dart';
 import 'package:homes_repository/homes_repository.dart';
 
 /// {@template PropertyItem}
@@ -19,25 +20,13 @@ class PropertyItem extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return GestureDetector(
-      onTap: () => AppNavigator.navigateToPropertyDetail(context),
+      onTap: () => AppNavigator.navigateToPropertyDetail(context, home.id),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.space8),
           child: Row(
             children: [
-              if (home.imageUrl != null)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(AppSpacing.space16),
-                  child: Image.network(
-                    home.imageUrl ?? '',
-                    height: AppSpacing.space100,
-                  ),
-                )
-              else
-                Image.asset(
-                  'assets/images/default_home.png',
-                  height: AppSpacing.space100,
-                ),
+              Hero(tag: home.id, child: const HomeImage()),
               Expanded(
                 flex: 2,
                 child: Padding(

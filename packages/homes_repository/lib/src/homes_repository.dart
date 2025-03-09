@@ -24,9 +24,11 @@ class HomesRepository extends HomesRepositoryContract {
 
   final _streamController = BehaviorSubject<List<Home>>();
 
-  /// Stream of user homes.
+  /// Stream of user's homes.
   @override
   Stream<List<Home>> get homes => _streamController.stream;
+
+  List<Home> get _currentHomes => _homesBox.values.toList();
 
   @override
   Future<void> initialize() async {
@@ -34,8 +36,8 @@ class HomesRepository extends HomesRepositoryContract {
     Hive
       ..init('${directory.path}/hive')
       ..registerAdapter(HomeAdapter());
-    final box = await Hive.openBox<Home>(HOMES_LOCAL_STORAGE_KEY);
-    _streamController.add(box.values.toList());
+    await Hive.openBox<Home>(HOMES_LOCAL_STORAGE_KEY);
+    _streamController.add(_currentHomes);
     if (!_initialized.isCompleted) _initialized.complete();
   }
 
@@ -43,10 +45,31 @@ class HomesRepository extends HomesRepositoryContract {
   Future<Result<Unit, Exception>> save(Home home) async {
     try {
       await _homesBox.put(home.id, home);
-      _streamController.add(_homesBox.values.toList());
+      _streamController.add(_currentHomes);
       return const Result.ok(unit);
     } catch (e) {
       return Result.err(Exception('Unable to save information $e'));
     }
+  }
+
+  @override
+  Future<Result<Unit, Exception>> removeById(String homeId) async {
+    try {
+      await _homesBox.delete(homeId);
+      _streamController.add(_currentHomes);
+      return const Result.ok(unit);
+    } catch (e) {
+      return Result.err(Exception('Unable to delete home $homeId'));
+    }
+  }
+
+  @override
+  Stream<Home> getById(String homeId) {
+    return homes.map(
+      (homes) => homes.firstWhere(
+        (home) => home.id == homeId,
+        orElse: Home.empty,
+      ),
+    );
   }
 }

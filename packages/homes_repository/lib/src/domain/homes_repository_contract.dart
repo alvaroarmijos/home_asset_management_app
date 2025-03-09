@@ -9,6 +9,12 @@ abstract class HomesRepositoryContract {
   /// Returns the list of available homes
   Stream<List<Home>> get homes;
 
-  ///saves a home in the Data Store
+  /// Saves a home in the Data Store
   Future<Result<Unit, Exception>> save(Home home);
+
+  /// Removes a home from the Data Store
+  Future<Result<Unit, Exception>> removeById(String homeId);
+
+  /// Gets a home by id from the Data Store
+  Stream<Home> getById(String homeId);
 }

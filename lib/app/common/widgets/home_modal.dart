@@ -4,21 +4,53 @@ import 'package:home_asset_management_app/app/common/utils/validators.dart';
 import 'package:home_asset_management_app/app/ui/app_spacing.dart';
 import 'package:home_asset_management_app/home/state/home_modal.state.dart';
 import 'package:home_asset_management_app/home/state/pods.dart';
+import 'package:homes_repository/homes_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+/// Popup modal that you can use by default to create/edit a Home
+enum HomeModalType {
+  /// Create Home Modal
+  create,
+
+  /// Edit Home Modal
+  edit,
+}
 
 /// {@template HomeModal}
 /// Show the modal to Add/Update a Home
 /// {@endtemplate}
 class HomeModal extends HookConsumerWidget {
-  /// {@macro HomeModal}
-  const HomeModal({super.key});
+  /// Creates a modal to add a new Home.
+  const HomeModal.create({
+    super.key,
+    this.type = HomeModalType.create,
+    this.home,
+  });
+
+  /// Creates a modal to edit a Home.
+  const HomeModal.edit({
+    required Home this.home,
+    super.key,
+    this.type = HomeModalType.edit,
+  });
+
+  /// The type of the modal.
+  /// Can be [HomeModalType.create] or [HomeModalType.edit].
+  final HomeModalType type;
+
+  /// Home to edit
+  final Home? home;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
     final formKey = GlobalKey<FormState>();
-    final nameController = useTextEditingController();
-    final addressController = useTextEditingController();
+    final nameController = useTextEditingController(text: home?.name);
+    final addressController = useTextEditingController(text: home?.address);
+    final (title, buttonLabel) = switch (type) {
+      HomeModalType.create => ('Add new Home', 'Save'),
+      HomeModalType.edit => ('Edit Home', 'Update'),
+    };
 
     final homeModalState = ref.watch(homeModalNotifierPod);
 
@@ -39,7 +71,7 @@ class HomeModal extends HookConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Add new Home',
+                title,
                 style: textTheme.headlineSmall,
                 textAlign: TextAlign.center,
               ),
@@ -67,12 +99,27 @@ class HomeModal extends HookConsumerWidget {
                   onPressed: () {
                     final isValid = formKey.currentState?.validate() ?? false;
                     if (isValid) {
-                      ref
-                          .read(homeModalNotifierPod.notifier)
-                          .addHome(nameController.text, addressController.text);
+                      final homeModalNotifier = ref.read(
+                        homeModalNotifierPod.notifier,
+                      );
+                      switch (type) {
+                        case HomeModalType.create:
+                          homeModalNotifier.addHome(
+                            nameController.text,
+                            addressController.text,
+                          );
+                        case HomeModalType.edit:
+                          if (home == null) return;
+                          homeModalNotifier.update(
+                            home!.copyWith(
+                              name: nameController.text,
+                              address: addressController.text,
+                            ),
+                          );
+                      }
                     }
                   },
-                  child: const Text('Save'),
+                  child: Text(buttonLabel),
                 ),
                 HomeModalStateLoading() || HomeModalStateSaved() =>
                   const Center(child: CircularProgressIndicator.adaptive()),

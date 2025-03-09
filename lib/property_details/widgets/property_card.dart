@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:home_asset_management_app/app/common/widgets/home_image.dart';
 import 'package:home_asset_management_app/app/ui/ui.dart';
+import 'package:homes_repository/homes_repository.dart';
 
 /// {@template PropertyCard}
 /// Card to show the property information details
 /// {@endtemplate}
 class PropertyCard extends StatelessWidget {
   /// {@macro PropertyCard}
-  const PropertyCard({super.key});
+  const PropertyCard({required this.home, super.key});
+
+  /// The home to show the details
+  final Home home;
 
   @override
   Widget build(BuildContext context) {
@@ -21,21 +26,21 @@ class PropertyCard extends StatelessWidget {
               spacing: AppSpacing.space16,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(AppSpacing.space32),
-                  child: Image.network(
-                    'https://resource.rentcafe.com/image/upload/q_auto,f_auto/s3/2/5963/small%20duo%20exterior-1.jpg',
+                Hero(
+                  tag: home.id,
+                  child: HomeImage(
+                    imageUrl: home.imageUrl,
                     width: double.infinity,
                   ),
                 ),
-                Text('Dup Apartment', style: textTheme.headlineMedium),
+                Text(home.name, style: textTheme.headlineMedium),
                 Row(
                   children: [
                     const Icon(
                       Icons.location_on,
                       color: AppColors.secondaryColor,
                     ),
-                    Text('US Address', style: textTheme.bodyLarge),
+                    Text(home.address, style: textTheme.bodyLarge),
                   ],
                 ),
               ],

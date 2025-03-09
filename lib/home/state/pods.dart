@@ -3,10 +3,8 @@ import 'package:home_asset_management_app/app/di/di.dart';
 import 'package:home_asset_management_app/home/state/home_modal.state.dart';
 import 'package:home_asset_management_app/home/state/home_modal_notifier.dart';
 import 'package:home_asset_management_app/home/state/home_notifier.dart';
+import 'package:home_asset_management_app/home/state/remove_home_notifier.dart';
 import 'package:homes_repository/homes_repository.dart';
-
-// /// The provider for the [HomesRepository].
-// final homeRepoPod = Provider((ref) => HomesRepository()..initialize());
 
 /// The provider for the [HomeNotifier].
 final homeNotifierPod =
@@ -23,5 +21,13 @@ final homeModalNotifierPod =
     StateNotifierProvider.autoDispose<HomeModalNotifier, HomeModalState>(
       (ref) => HomeModalNotifier(homesRepository: getIt<HomesRepository>()),
       name: 'homeModalNotifierPod',
-      dependencies: [],
+      dependencies: const [],
+    );
+
+/// The provider for the [DeleteHomeNotifier].
+final deleteHomeNotifierPod =
+    StateNotifierProvider<DeleteHomeNotifier, AsyncValue>(
+      (ref) => DeleteHomeNotifier(homesRepository: getIt<HomesRepository>()),
+      name: 'deleteHomeNotifierPod',
+      dependencies: const [],
     );

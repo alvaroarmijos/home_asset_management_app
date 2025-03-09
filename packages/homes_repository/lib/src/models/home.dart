@@ -16,6 +16,13 @@ class Home extends HiveObject {
     this.imageUrl,
   });
 
+  /// Creates a empty Home
+  factory Home.empty() => Home(
+        id: '',
+        name: '',
+        address: '',
+      );
+
   /// Home identifier
   @HiveField(0)
   final String id;
@@ -31,4 +38,19 @@ class Home extends HiveObject {
   /// Url of home image
   @HiveField(3)
   final String? imageUrl;
+
+  /// Create a copy of Home
+  Home copyWith({
+    String? id,
+    String? name,
+    String? address,
+    String? imageUrl,
+  }) {
+    return Home(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      address: address ?? this.address,
+      imageUrl: imageUrl ?? this.imageUrl,
+    );
+  }
 }

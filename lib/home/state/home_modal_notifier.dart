@@ -31,4 +31,18 @@ class HomeModalNotifier extends StateNotifier<HomeModalState> {
       err: (e) => HomeModalState.failure(message: e.toString()),
     );
   }
+
+  /// Updates a home in the repository.
+  Future<void> update(Home home) async {
+    if (!mounted) return;
+
+    state = const HomeModalState.loading();
+
+    final result = await _homesRepository.save(home);
+
+    state = result.when(
+      ok: (_) => const HomeModalState.saved(),
+      err: (e) => HomeModalState.failure(message: e.toString()),
+    );
+  }
 }
