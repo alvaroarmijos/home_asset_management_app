@@ -12,6 +12,7 @@ class HomeImage extends StatelessWidget {
   /// Image to display.
   final String? imageUrl;
 
+  /// Width of the image.
   final double width;
 
   @override
@@ -23,6 +24,6 @@ class HomeImage extends StatelessWidget {
       );
     }
 
-    return Image.asset('assets/images/default_home.png', width: width);
+    return Image.asset(AppAssets.defaultHome, width: width);
   }
 }

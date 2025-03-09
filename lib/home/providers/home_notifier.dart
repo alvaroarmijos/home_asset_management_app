@@ -24,7 +24,7 @@ class HomeNotifier extends StateNotifier<AsyncValue<List<Home>>> {
     _homesSubscription = _homesRepository.homes.listen(_onNewHomes);
   }
 
-  /// Updates the status when a data is added.
+  /// Updates the status when the data is added.
   void _onNewHomes(List<Home> homes) {
     state = AsyncData(homes);
   }

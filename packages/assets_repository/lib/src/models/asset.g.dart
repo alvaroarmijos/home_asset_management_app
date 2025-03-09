@@ -8,7 +8,7 @@ part of 'asset.dart';
 
 class AssetAdapter extends TypeAdapter<Asset> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
   Asset read(BinaryReader reader) {
@@ -20,7 +20,7 @@ class AssetAdapter extends TypeAdapter<Asset> {
       id: fields[0] as String,
       name: fields[1] as String,
       homeId: fields[2] as String,
-      imageUrl: fields[3] as String?,
+      quantity: fields[3] as int,
     );
   }
 
@@ -35,7 +35,7 @@ class AssetAdapter extends TypeAdapter<Asset> {
       ..writeByte(2)
       ..write(obj.homeId)
       ..writeByte(3)
-      ..write(obj.imageUrl);
+      ..write(obj.quantity);
   }
 
   @override

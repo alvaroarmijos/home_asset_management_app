@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:home_asset_management_app/app/ui/app_spacing.dart';
-import 'package:home_asset_management_app/home/state/pods.dart';
+import 'package:home_asset_management_app/home/providers/pods.dart';
 import 'package:home_asset_management_app/property_details/providers/pods.dart';
+import 'package:home_asset_management_app/property_details/widgets/home_assets.dart';
 import 'package:home_asset_management_app/property_details/widgets/pop_up_menu_details.dart';
 import 'package:home_asset_management_app/property_details/widgets/property_card.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -20,9 +21,10 @@ class PropertyDetailsPage extends HookConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
     final homeId = ModalRoute.of(context)!.settings.arguments! as String;
 
-    ref.listen(deleteHomeNotifierPod, (_, currentState) {
+    // Listening for changes in deleteHomeNotifierPod to navigate back
+    ref.listen(deleteHomeNotifierPod, (_, next) {
       // Pop the Property Detail Page when the user deletes the Home
-      if (currentState.hasValue) {
+      if (next.hasValue) {
         Navigator.pop(context);
       }
     });
@@ -36,30 +38,33 @@ class PropertyDetailsPage extends HookConsumerWidget {
 
     final homeDetailState = ref.watch(homeDetailNotifierPod);
 
-    return homeDetailState.when(
+    return homeDetailState.home.when(
       data:
-          (home) =>
-              home != null
-                  ? Scaffold(
-                    appBar: AppBar(
-                      title: const Text('Property Details'),
-                      actions: [PopUpMenuDetails(home: home)],
-                    ),
-                    body: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.space16,
+          (home) => Scaffold(
+            appBar: AppBar(
+              title: const Text('Property Details'),
+              actions: [PopUpMenuDetails(home: home)],
+            ),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.space16,
+              ),
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 600),
+                  child: CustomScrollView(
+                    slivers: [
+                      PropertyCard(home: home),
+                      SliverToBoxAdapter(
+                        child: Text('Assets', style: textTheme.titleLarge),
                       ),
-                      child: CustomScrollView(
-                        slivers: [
-                          PropertyCard(home: home),
-                          SliverToBoxAdapter(
-                            child: Text('Assets', style: textTheme.titleLarge),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                  : const SizedBox(),
+                      const HomeAssets(),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
       loading:
           () => const Scaffold(
             body: Center(child: CircularProgressIndicator.adaptive()),

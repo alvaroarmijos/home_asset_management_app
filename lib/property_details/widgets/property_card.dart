@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:home_asset_management_app/app/common/widgets/home_image.dart';
 import 'package:home_asset_management_app/app/ui/ui.dart';
@@ -24,13 +25,14 @@ class PropertyCard extends StatelessWidget {
             padding: const EdgeInsets.all(AppSpacing.space16),
             child: Column(
               spacing: AppSpacing.space16,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  kIsWeb ? CrossAxisAlignment.center : CrossAxisAlignment.start,
               children: [
                 Hero(
                   tag: home.id,
                   child: HomeImage(
                     imageUrl: home.imageUrl,
-                    width: double.infinity,
+                    width: kIsWeb ? 400 : double.infinity,
                   ),
                 ),
                 Text(home.name, style: textTheme.headlineMedium),

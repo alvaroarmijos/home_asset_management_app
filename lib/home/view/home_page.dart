@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:home_asset_management_app/app/common/widgets/home_modal.dart';
-import 'package:home_asset_management_app/app/ui/app_spacing.dart';
-import 'package:home_asset_management_app/home/state/pods.dart';
+import 'package:home_asset_management_app/app/ui/ui.dart';
+import 'package:home_asset_management_app/home/providers/pods.dart';
 import 'package:home_asset_management_app/home/widgets/home_properties.dart';
 
 /// {@template HomePage}
@@ -24,9 +24,7 @@ class HomePage extends ConsumerWidget {
         actions: const [
           CircleAvatar(
             minRadius: AppSpacing.space32,
-            foregroundImage: NetworkImage(
-              'https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-linea_23-2151303048.jpg',
-            ),
+            foregroundImage: AssetImage(AppAssets.avatar),
           ),
         ],
       ),

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:home_asset_management_app/app/common/utils/validators.dart';
 import 'package:home_asset_management_app/app/ui/app_spacing.dart';
-import 'package:home_asset_management_app/home/state/home_modal.state.dart';
-import 'package:home_asset_management_app/home/state/pods.dart';
+import 'package:home_asset_management_app/home/providers/home_modal.state.dart';
+import 'package:home_asset_management_app/home/providers/pods.dart';
 import 'package:homes_repository/homes_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -17,7 +17,7 @@ enum HomeModalType {
 }
 
 /// {@template HomeModal}
-/// Show the modal to Add/Update a Home
+/// Modal to Add/Update a Home with an Save/Update button
 /// {@endtemplate}
 class HomeModal extends HookConsumerWidget {
   /// Creates a modal to add a new Home.
@@ -54,15 +54,17 @@ class HomeModal extends HookConsumerWidget {
 
     final homeModalState = ref.watch(homeModalNotifierPod);
 
+    // Listening for changes in homeModalNotifierPod to navigate back
     ref.listen(homeModalNotifierPod, (_, currentState) {
       if (currentState is HomeModalStateSaved) {
+        // Pop the Home Modal when the user saves a new Home
         Navigator.pop(context);
       }
     });
 
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.space16),
-      child: SafeArea(
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.space16),
         child: Form(
           key: formKey,
           child: Column(

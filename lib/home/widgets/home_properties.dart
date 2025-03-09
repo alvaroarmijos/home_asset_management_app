@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:home_asset_management_app/app/ui/ui.dart';
 import 'package:home_asset_management_app/home/widgets/property_item.dart';
@@ -29,11 +30,25 @@ class HomeProperties extends StatelessWidget {
             ),
           ),
         ),
-        SliverList(
-          delegate: SliverChildListDelegate([
-            ...homes.map((home) => PropertyItem(home: home)),
-          ]),
-        ),
+        if (homes.isEmpty)
+          const SliverFillRemaining(
+            hasScrollBody: false,
+            child: Center(child: Text('No Properties added yet.')),
+          )
+        else if (kIsWeb)
+          SliverGrid.builder(
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 400,
+              childAspectRatio: 2,
+            ),
+            itemCount: homes.length,
+            itemBuilder: (context, index) => PropertyItem(home: homes[index]),
+          )
+        else
+          SliverList.builder(
+            itemCount: homes.length,
+            itemBuilder: (context, index) => PropertyItem(home: homes[index]),
+          ),
       ],
     );
   }

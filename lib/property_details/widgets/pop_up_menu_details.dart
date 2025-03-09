@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:home_asset_management_app/app/common/widgets/home_modal.dart';
-import 'package:home_asset_management_app/home/state/pods.dart';
+import 'package:home_asset_management_app/home/providers/pods.dart';
 import 'package:homes_repository/homes_repository.dart';
 
-enum PopupOptions { edit, delete }
+/// Popup options that you can use to edit/delete a Home
+enum PopupOptions {
+  /// Edit home
+  edit,
 
+  /// Delete home
+  delete,
+}
+
+/// {@template PopUpMenuDetails}
+/// Popup menu to Edit/Delete a Home
+/// {@endtemplate}
 class PopUpMenuDetails extends ConsumerWidget {
+  /// Creates a popup menu to Edit/Delete a Home.
   const PopUpMenuDetails({required this.home, super.key});
 
+  /// Home to Edit/Delete
   final Home home;
 
   @override

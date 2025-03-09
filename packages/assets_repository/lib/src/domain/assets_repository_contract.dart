@@ -6,12 +6,18 @@ abstract class AssetsRepositoryContract {
   /// Initializes the repository.
   Future<void> initialize();
 
-  /// Saves an asset in the Data Store
+  /// Saves the given asset in the Data Store
   Future<Result<Unit, Exception>> save(Asset asset);
 
-  /// Removes an asset from the Data Store
-  Future<Result<Unit, Exception>> removeById(String assetId);
-
-  /// Gets a list of assets by [homeId] from the Data Store
+  /// Stream with all assets with the given [homeId] in the Data Store
   Stream<List<Asset>> getById(String homeId);
+
+  /// Gets a list of assets available from the Data Store
+  List<Asset> getAll();
+
+  /// Saves the initial asset list with the [homeId] in the Data Store.
+  Future<Result<Unit, Exception>> addDefaultAssets(String homeId);
+
+  /// Removes all assets with the [homeId] from the Data Store
+  Future<Result<Unit, Exception>> removeAllById(String homeId);
 }

@@ -1,5 +1,7 @@
+import 'package:assets_repository/src/assets_data.dart';
 import 'package:assets_repository/src/domain/assets_repository_contract.dart';
 import 'package:assets_repository/src/models/asset.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:oxidized/src/result.dart';
 import 'package:oxidized/src/unit.dart';
@@ -11,7 +13,7 @@ import 'package:rxdart/rxdart.dart';
 const String ASSETS_LOCAL_STORAGE_KEY = 'assets';
 
 /// {@template AssetsRepository}
-/// [AssetsRepository] get all the Assets data from Hive
+/// [AssetsRepository] Get all the Home Assets from Hive
 /// {@endtemplate}
 class AssetsRepository extends AssetsRepositoryContract {
   /// {@macro assets_repository}
@@ -24,9 +26,15 @@ class AssetsRepository extends AssetsRepositoryContract {
 
   @override
   Future<void> initialize() async {
-    final directory = await getApplicationSupportDirectory();
+    late String path;
+    if (kIsWeb) {
+      path = '/homeAssetManagement/hive/$ASSETS_LOCAL_STORAGE_KEY';
+    } else {
+      final directory = await getApplicationSupportDirectory();
+      path = '${directory.path}/hive/$ASSETS_LOCAL_STORAGE_KEY';
+    }
     Hive
-      ..init('${directory.path}/hive/$ASSETS_LOCAL_STORAGE_KEY')
+      ..init(path)
       ..registerAdapter(AssetAdapter());
     await Hive.openBox<Asset>(ASSETS_LOCAL_STORAGE_KEY);
     _streamController.add(_assets);
@@ -44,14 +52,50 @@ class AssetsRepository extends AssetsRepositoryContract {
   }
 
   @override
-  Future<Result<Unit, Exception>> removeById(String assetId) {
-    // TODO: implement removeById
-    throw UnimplementedError();
+  Future<Result<Unit, Exception>> addDefaultAssets(String homeId) async {
+    try {
+      final newAssets = getAll().map((asset) => asset.copyWith(homeId: homeId));
+      await _assetsBox.addAll(newAssets);
+      _streamController.add(_assets);
+      return const Result.ok(unit);
+    } catch (e) {
+      return Result.err(Exception('Unable to save assets $homeId'));
+    }
   }
 
   @override
-  Future<Result<Unit, Exception>> save(Asset asset) {
-    // TODO: implement save
-    throw UnimplementedError();
+  Future<Result<Unit, Exception>> save(Asset asset) async {
+    try {
+      final index = _assets.indexWhere(
+        (data) => asset.id == data.id && asset.homeId == data.homeId,
+      );
+      if (index == -1) return const Result.ok(unit);
+      final key = _assetsBox.keyAt(index);
+      await _assetsBox.put(key, asset);
+      _streamController.add(_assets);
+      return const Result.ok(unit);
+    } catch (e) {
+      return Result.err(Exception('Unable to save information $e'));
+    }
+  }
+
+  @override
+  List<Asset> getAll() => availableAssets;
+
+  @override
+  Future<Result<Unit, Exception>> removeAllById(String homeId) async {
+    try {
+      final homeAssets = _assets.where((asset) => asset.homeId == homeId);
+      for (final asset in homeAssets) {
+        final index = _assets.indexWhere((data) => asset.id == data.id);
+        if (index == -1) return const Result.ok(unit);
+        final key = _assetsBox.keyAt(index);
+        await _assetsBox.delete(key);
+      }
+      _streamController.add(_assets);
+      return const Result.ok(unit);
+    } catch (e) {
+      return Result.err(Exception('Unable to delete home $homeId'));
+    }
   }
 }

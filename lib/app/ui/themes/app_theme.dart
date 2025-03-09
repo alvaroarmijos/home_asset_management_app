@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:home_asset_management_app/app/ui/app_colors.dart';
 import 'package:home_asset_management_app/app/ui/app_spacing.dart';
@@ -8,10 +6,7 @@ import 'package:home_asset_management_app/app/ui/themes/app_text_theme.dart';
 /// Contains the light theme used in App.
 abstract class AppTheme {
   /// Determines base textStyle
-  static final baseTextStyle = TextStyle(
-    color: AppColors.textColor,
-    fontFamilyFallback: Platform.isAndroid ? ['sans-serif', 'Roboto'] : null,
-  );
+  static const baseTextStyle = TextStyle(color: AppColors.textColor);
 
   /// Determines outline input border for input decoration
   static final outlineInputBorder = OutlineInputBorder(
@@ -20,6 +15,8 @@ abstract class AppTheme {
       color: AppColors.primaryColor.withValues(alpha: 0.1),
     ),
   );
+
+  /// Returns the light theme
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,

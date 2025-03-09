@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'asset.g.dart';
 
-@HiveType(typeId: 0)
+@HiveType(typeId: 1)
 
 /// {@template Asset}
 /// Asset model
@@ -13,7 +13,7 @@ class Asset extends HiveObject {
     required this.id,
     required this.name,
     required this.homeId,
-    this.imageUrl,
+    required this.quantity,
   });
 
   /// Creates a empty Home
@@ -21,6 +21,7 @@ class Asset extends HiveObject {
         id: '',
         name: '',
         homeId: '',
+        quantity: 0,
       );
 
   /// Asset identifier
@@ -35,22 +36,22 @@ class Asset extends HiveObject {
   @HiveField(2)
   final String homeId;
 
-  /// Url of home image
+  /// Assets quantity
   @HiveField(3)
-  final String? imageUrl;
+  final int quantity;
 
-  /// Create a copy of Home
+  /// Creates a copy of Asset
   Asset copyWith({
     String? id,
     String? name,
     String? homeId,
-    String? imageUrl,
+    int? quantity,
   }) {
     return Asset(
       id: id ?? this.id,
       name: name ?? this.name,
       homeId: homeId ?? this.homeId,
-      imageUrl: imageUrl ?? this.imageUrl,
+      quantity: quantity ?? this.quantity,
     );
   }
 }

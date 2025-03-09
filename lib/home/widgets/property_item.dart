@@ -33,6 +33,7 @@ class PropertyItem extends StatelessWidget {
                   padding: const EdgeInsets.only(left: AppSpacing.space16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(home.name, style: textTheme.titleLarge),
                       const SizedBox(height: AppSpacing.space16),

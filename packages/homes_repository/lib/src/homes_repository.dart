@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:homes_repository/src/domain/homes_repository_contract.dart';
 import 'package:homes_repository/src/models/home.dart';
@@ -18,8 +19,6 @@ class HomesRepository extends HomesRepositoryContract {
   /// {@macro HomesRepository}
   HomesRepository();
 
-  final _initialized = Completer<void>();
-
   Box<Home> get _homesBox => Hive.box<Home>(HOMES_LOCAL_STORAGE_KEY);
 
   final _streamController = BehaviorSubject<List<Home>>();
@@ -32,13 +31,18 @@ class HomesRepository extends HomesRepositoryContract {
 
   @override
   Future<void> initialize() async {
-    final directory = await getApplicationSupportDirectory();
+    late String path;
+    if (kIsWeb) {
+      path = '/homeAssetManagement/hive';
+    } else {
+      final directory = await getApplicationSupportDirectory();
+      path = '${directory.path}/hive';
+    }
     Hive
-      ..init('${directory.path}/hive')
+      ..init(path)
       ..registerAdapter(HomeAdapter());
     await Hive.openBox<Home>(HOMES_LOCAL_STORAGE_KEY);
     _streamController.add(_currentHomes);
-    if (!_initialized.isCompleted) _initialized.complete();
   }
 
   @override
