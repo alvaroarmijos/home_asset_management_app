@@ -14,6 +14,5 @@ class HomeDetailState with _$HomeDetailState {
   const factory HomeDetailState({
     required AsyncValue<Home> home,
     required AsyncValue<List<Asset>> assets,
-    required List<Asset> availableAssets,
   }) = _HomeDetailState;
 }

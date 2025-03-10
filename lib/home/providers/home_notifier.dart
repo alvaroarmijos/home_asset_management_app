@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:homes_repository/homes_repository.dart';
 
@@ -21,11 +22,12 @@ class HomeNotifier extends StateNotifier<AsyncValue<List<Home>>> {
     if (!mounted) return;
     state = const AsyncLoading();
     await _homesSubscription?.cancel();
-    _homesSubscription = _homesRepository.homes.listen(_onNewHomes);
+    _homesSubscription = _homesRepository.homes.listen(onNewHomes);
   }
 
   /// Updates the status when the data is added.
-  void _onNewHomes(List<Home> homes) {
+  @visibleForTesting
+  void onNewHomes(List<Home> homes) {
     state = AsyncData(homes);
   }
 

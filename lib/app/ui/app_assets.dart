@@ -1,3 +1,4 @@
+// coverage:ignore-file
 /// Abstract class of app assets.
 abstract class AppAssets {
   ///[avatar]

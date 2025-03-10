@@ -18,7 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeDetailState {
   AsyncValue<Home> get home => throw _privateConstructorUsedError;
   AsyncValue<List<Asset>> get assets => throw _privateConstructorUsedError;
-  List<Asset> get availableAssets => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -33,10 +32,7 @@ abstract class $HomeDetailStateCopyWith<$Res> {
           HomeDetailState value, $Res Function(HomeDetailState) then) =
       _$HomeDetailStateCopyWithImpl<$Res, HomeDetailState>;
   @useResult
-  $Res call(
-      {AsyncValue<Home> home,
-      AsyncValue<List<Asset>> assets,
-      List<Asset> availableAssets});
+  $Res call({AsyncValue<Home> home, AsyncValue<List<Asset>> assets});
 }
 
 /// @nodoc
@@ -56,7 +52,6 @@ class _$HomeDetailStateCopyWithImpl<$Res, $Val extends HomeDetailState>
   $Res call({
     Object? home = null,
     Object? assets = null,
-    Object? availableAssets = null,
   }) {
     return _then(_value.copyWith(
       home: null == home
@@ -67,10 +62,6 @@ class _$HomeDetailStateCopyWithImpl<$Res, $Val extends HomeDetailState>
           ? _value.assets
           : assets // ignore: cast_nullable_to_non_nullable
               as AsyncValue<List<Asset>>,
-      availableAssets: null == availableAssets
-          ? _value.availableAssets
-          : availableAssets // ignore: cast_nullable_to_non_nullable
-              as List<Asset>,
     ) as $Val);
   }
 }
@@ -83,10 +74,7 @@ abstract class _$$HomeDetailStateImplCopyWith<$Res>
       __$$HomeDetailStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {AsyncValue<Home> home,
-      AsyncValue<List<Asset>> assets,
-      List<Asset> availableAssets});
+  $Res call({AsyncValue<Home> home, AsyncValue<List<Asset>> assets});
 }
 
 /// @nodoc
@@ -104,7 +92,6 @@ class __$$HomeDetailStateImplCopyWithImpl<$Res>
   $Res call({
     Object? home = null,
     Object? assets = null,
-    Object? availableAssets = null,
   }) {
     return _then(_$HomeDetailStateImpl(
       home: null == home
@@ -115,10 +102,6 @@ class __$$HomeDetailStateImplCopyWithImpl<$Res>
           ? _value.assets
           : assets // ignore: cast_nullable_to_non_nullable
               as AsyncValue<List<Asset>>,
-      availableAssets: null == availableAssets
-          ? _value._availableAssets
-          : availableAssets // ignore: cast_nullable_to_non_nullable
-              as List<Asset>,
     ));
   }
 }
@@ -126,27 +109,16 @@ class __$$HomeDetailStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$HomeDetailStateImpl implements _HomeDetailState {
-  const _$HomeDetailStateImpl(
-      {required this.home,
-      required this.assets,
-      required final List<Asset> availableAssets})
-      : _availableAssets = availableAssets;
+  const _$HomeDetailStateImpl({required this.home, required this.assets});
 
   @override
   final AsyncValue<Home> home;
   @override
   final AsyncValue<List<Asset>> assets;
-  final List<Asset> _availableAssets;
-  @override
-  List<Asset> get availableAssets {
-    if (_availableAssets is EqualUnmodifiableListView) return _availableAssets;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_availableAssets);
-  }
 
   @override
   String toString() {
-    return 'HomeDetailState(home: $home, assets: $assets, availableAssets: $availableAssets)';
+    return 'HomeDetailState(home: $home, assets: $assets)';
   }
 
   @override
@@ -155,14 +127,11 @@ class _$HomeDetailStateImpl implements _HomeDetailState {
         (other.runtimeType == runtimeType &&
             other is _$HomeDetailStateImpl &&
             (identical(other.home, home) || other.home == home) &&
-            (identical(other.assets, assets) || other.assets == assets) &&
-            const DeepCollectionEquality()
-                .equals(other._availableAssets, _availableAssets));
+            (identical(other.assets, assets) || other.assets == assets));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, home, assets,
-      const DeepCollectionEquality().hash(_availableAssets));
+  int get hashCode => Object.hash(runtimeType, home, assets);
 
   /// Create a copy of HomeDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -177,15 +146,12 @@ class _$HomeDetailStateImpl implements _HomeDetailState {
 abstract class _HomeDetailState implements HomeDetailState {
   const factory _HomeDetailState(
       {required final AsyncValue<Home> home,
-      required final AsyncValue<List<Asset>> assets,
-      required final List<Asset> availableAssets}) = _$HomeDetailStateImpl;
+      required final AsyncValue<List<Asset>> assets}) = _$HomeDetailStateImpl;
 
   @override
   AsyncValue<Home> get home;
   @override
   AsyncValue<List<Asset>> get assets;
-  @override
-  List<Asset> get availableAssets;
 
   /// Create a copy of HomeDetailState
   /// with the given fields replaced by the non-null parameter values.

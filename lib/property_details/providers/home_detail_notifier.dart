@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:assets_repository/assets_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:home_asset_management_app/property_details/providers/home_detail.state.dart';
 import 'package:homes_repository/homes_repository.dart';
@@ -16,11 +17,7 @@ class HomeDetailNotifier extends StateNotifier<HomeDetailState> {
   }) : _homesRepository = homesRepository,
        _assetsRepository = assetsRepository,
        super(
-         const HomeDetailState(
-           home: AsyncLoading(),
-           assets: AsyncLoading(),
-           availableAssets: [],
-         ),
+         const HomeDetailState(home: AsyncLoading(), assets: AsyncLoading()),
        );
 
   final HomesRepository _homesRepository;
@@ -36,25 +33,26 @@ class HomeDetailNotifier extends StateNotifier<HomeDetailState> {
     state = state.copyWith(
       home: const AsyncLoading(),
       assets: const AsyncLoading(),
-      availableAssets: [],
     );
 
     await _homeSubscription?.cancel();
-    _homeSubscription = _homesRepository.getById(homeId).listen(_onHomeChange);
+    _homeSubscription = _homesRepository.getById(homeId).listen(onHomeChange);
 
     await _assetsSubscription?.cancel();
     _assetsSubscription = _assetsRepository
         .getById(homeId)
-        .listen(_onAssetsChange);
+        .listen(onAssetsChange);
   }
 
   /// Updates the home status when data changes.
-  void _onHomeChange(Home home) {
+  @visibleForTesting
+  void onHomeChange(Home home) {
     state = state.copyWith(home: AsyncData(home));
   }
 
   /// Updates the assets status when data changes.
-  void _onAssetsChange(List<Asset> assets) {
+  @visibleForTesting
+  void onAssetsChange(List<Asset> assets) {
     state = state.copyWith(assets: AsyncData(assets));
   }
 
@@ -62,7 +60,7 @@ class HomeDetailNotifier extends StateNotifier<HomeDetailState> {
   Future<void> addAsset(Asset asset) async {
     if (!mounted) return;
     final currentQuantity = asset.quantity;
-    await _updateAsset(asset.copyWith(quantity: currentQuantity + 1));
+    await updateAsset(asset.copyWith(quantity: currentQuantity + 1));
   }
 
   /// Remove an asset from the home.
@@ -70,11 +68,12 @@ class HomeDetailNotifier extends StateNotifier<HomeDetailState> {
     if (!mounted) return;
     final currentQuantity = asset.quantity;
     if (currentQuantity <= 0) return;
-    await _updateAsset(asset.copyWith(quantity: currentQuantity - 1));
+    await updateAsset(asset.copyWith(quantity: currentQuantity - 1));
   }
 
   /// Updates an assets in the repository.
-  Future<void> _updateAsset(Asset asset) async {
+  @visibleForTesting
+  Future<void> updateAsset(Asset asset) async {
     if (!mounted) return;
     await _assetsRepository.save(asset);
   }

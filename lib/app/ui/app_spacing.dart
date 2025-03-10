@@ -1,3 +1,4 @@
+// coverage:ignore-file
 /// Abstract class of spacings.
 abstract class AppSpacing {
   ///[space4]

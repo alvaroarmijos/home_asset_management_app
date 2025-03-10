@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'package:flutter/material.dart';
 
 /// Returns the generic TextTheme used in App's Design System

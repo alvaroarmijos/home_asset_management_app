@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'package:flutter/material.dart';
 import 'package:home_asset_management_app/app/ui/app_colors.dart';
 import 'package:home_asset_management_app/app/ui/app_spacing.dart';

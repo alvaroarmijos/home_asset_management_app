@@ -1,4 +1,5 @@
 import 'package:assets_repository/assets_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:home_asset_management_app/home/providers/home_modal.state.dart';
 import 'package:homes_repository/homes_repository.dart';
@@ -32,7 +33,7 @@ class HomeModalNotifier extends StateNotifier<HomeModalState> {
     final result = await _homesRepository.save(home);
     state = result.when(
       ok: (_) {
-        _addInitialAssetsToHome(home.id);
+        addInitialAssetsToHome(home.id);
         return const HomeModalState.saved();
       },
       err: (e) => HomeModalState.failure(message: e.toString()),
@@ -40,7 +41,8 @@ class HomeModalNotifier extends StateNotifier<HomeModalState> {
   }
 
   /// saves the Home assets in the repository.
-  Future<void> _addInitialAssetsToHome(String homeId) async {
+  @visibleForTesting
+  Future<void> addInitialAssetsToHome(String homeId) async {
     if (!mounted) return;
 
     final result = await _assetsRepository.addDefaultAssets(homeId);

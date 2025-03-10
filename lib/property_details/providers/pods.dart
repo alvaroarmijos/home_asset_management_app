@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'package:assets_repository/assets_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:home_asset_management_app/app/di/di.dart';

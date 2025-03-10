@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'package:assets_repository/assets_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:homes_repository/homes_repository.dart';
