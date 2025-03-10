@@ -92,6 +92,40 @@ genhtml coverage/lcov.info -o coverage/html
 open coverage/html/index.html                           
 ```
 
+## CI/CD
+[Codemagic](https://codemagic.io/start/) was used for workflow automation and build generation for Android, iOS and Web.
+
+### Testing
+The configuration for the testing flow is shown below.
+<p>
+    <img src="./docs/codemagic_testing.png" width="400"/ hspace="5"> 
+</p>
+
+### Build
+The configuration for the build flow for Android is shown below.
+
+<p>
+    <img src="./docs/codemagic_build.png" width="400"/ hspace="5"> 
+</p>
+
+Now to generate the builds, just choose the workflow and branch.
+
+<p>
+    <img src="./docs/codemagic_workflow.png" width="400"/ hspace="5"> 
+</p>
+
+Codemagic is responsible for running the tests before generating the builds:
+
+<p>
+    <img src="./docs/codemagic_tests.png" width="400"/ hspace="5"> 
+</p>
+
+Finally we have the builds ready for testing.
+
+<p>
+    <img src="./docs/codemagic_builds.png" width="400"/ hspace="5"> 
+</p>
+
 ## Screenshots
 ### iOS
 <p>
